@@ -20,6 +20,7 @@ const equalPackages = {
   'deep-eql': require('deep-eql'),
   'deep-equal': require('deep-equal'),
   'fast-deep-equal': require('fast-deep-equal'),
+  'fast-deep-equal (es6)': require('fast-deep-equal/es6'),
   'fast-equals': fe.deepEqual,
   'fast-equals (circular)': fe.circularDeepEqual,
   'lodash.isEqual': require('lodash').isEqual,
@@ -29,7 +30,7 @@ const equalPackages = {
   'underscore.isEqual': require('underscore').isEqual,
 };
 
-const filteredEquivalentTests = ['maps', 'sets', 'promises'];
+const filteredEquivalentTests = ['maps', 'sets', 'promises', 'typed arrays'];
 
 /*
  * filter out Map and Set, as those do not pass with anything but lodash and falsely inflate the average ops/sec
@@ -172,6 +173,7 @@ for (const equalName in equalPackages) {
       for (const test of testSuite.tests) {
         if (
           test.description !== 'pseudo array and equivalent array are not equal'
+          && test.description !== 'empty objects with `null` as prototype'
         ) {
           equalFunc(test.value1, test.value2);
         }

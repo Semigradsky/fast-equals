@@ -252,6 +252,7 @@ All benchmarks were performed on an i7-8650U Ubuntu Linux laptop with 24GB of me
 Caveats that impact the benchmark (and accuracy of comparison):
 
 - `Map`s, `Promise`s, and `Set`s were excluded from the benchmark entirely because no library other than `deep-eql` fully supported their comparison
+- `fast-deep-equal` and `nano-equal` throw on objects with `null` as prototype
 - `assert.deepStrictEqual` does not support `NaN` or `SameValueZero` equality for dates
 - `deep-eql` does not support `SameValueZero` equality for zero equality (positive and negative zero are not equal)
 - `deep-equal` does not support `NaN` and does not strictly compare object type, or date / regexp values, nor uses `SameValueZero` equality for dates

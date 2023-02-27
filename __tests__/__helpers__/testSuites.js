@@ -215,6 +215,13 @@ module.exports = [
       },
       {
         deepEqual: true,
+        description: 'empty objects with `null` as prototype',
+        shallowEqual: true,
+        value1: Object.create(null),
+        value2: Object.create(null),
+      },
+      {
+        deepEqual: true,
         description: 'equal objects (same properties "order")',
         shallowEqual: true,
         value1: {
@@ -390,6 +397,13 @@ module.exports = [
           length: 2,
         },
         value2: [0, 1],
+      },
+      {
+        deepEqual: false,
+        description: 'different sparse arrays are not equal',
+        shallowEqual: false,
+        value1: new Array(10),
+        value2: new Array(100),
       },
     ],
   },
@@ -721,5 +735,73 @@ module.exports = [
         },
       },
     ],
+  },
+  {
+    description: 'typed arrays',
+    tests: [
+      {
+        deepEqual: true,
+        description: 'two empty arrays of the same class are equal',
+        shallowEqual: true,
+        value1: new Int32Array([]),
+        value2: new Int32Array([]),
+      },
+      {
+        deepEqual: false,
+        description: 'two empty arrays of the different class are not equal',
+        shallowEqual: false,
+        value1: new Int32Array([]),
+        value2: new Int16Array([]),
+      },
+      {
+        deepEqual: true,
+        description: 'equal arrays',
+        shallowEqual: true,
+        value1: new Int32Array([1, 2, 3]),
+        value2: new Int32Array([1, 2, 3]),
+      },
+      {
+        deepEqual: true,
+        description: 'equal BigUint64Array arrays',
+        shallowEqual: true,
+        value1: new BigUint64Array(['1', '2', '3']),
+        value2: new BigUint64Array(['1', '2', '3']),
+      },
+      {
+        deepEqual: false,
+        description: 'not equal BigUint64Array arrays',
+        shallowEqual: false,
+        value1: new BigUint64Array(['1', '2', '3']),
+        value2: new BigUint64Array(['1', '2', '4']),
+      },
+      {
+        deepEqual: false,
+        description: 'not equal arrays (same items, different class)',
+        shallowEqual: false,
+        value1: new Int32Array([1, 2, 3]),
+        value2: new Int16Array([1, 2, 3]),
+      },
+      {
+        deepEqual: false,
+        description: 'not equal arrays (different item)',
+        shallowEqual: false,
+        value1: new Int32Array([1, 2, 3]),
+        value2: new Int32Array([1, 2, 4]),
+      },
+      {
+        deepEqual: false,
+        description: 'not equal arrays (different length)',
+        shallowEqual: false,
+        value1: new Int32Array([1, 2, 3]),
+        value2: new Int32Array([1, 2]),
+      },
+      {
+        deepEqual: false,
+        description: 'pseudo array and equivalent typed array are not equal',
+        shallowEqual: false,
+        value1: {'0': 1, '1': 2, length: 2, constructor: Int32Array},
+        value2: new Int32Array([1, 2]),
+      }
+    ]
   },
 ];
